@@ -8,16 +8,24 @@ Personal agent skills maintained by seikosantana for Claude Code and Codex.
 | --- | --- |
 | [herdr/hc](herdr/hc/SKILL.md) | Persistent terminals, authorized agent coordination, efficient handoffs, and context compaction with herdr-core's `hc` CLI. |
 
-## Personal permission policy
+## Permission setup
 
-**The hc skill includes permission-bypass flags by personal preference:**
+The maintainer's recommended choice is **Yes** to automatic permission mode:
 
 - Claude Code: `--dangerously-skip-permissions` bypasses permission prompts.
 - Codex: `--yolo` bypasses approval prompts and sandbox restrictions.
 
-These flags are not required by hc. Review and adapt this policy before using the skill in your own environment. The flags do not authorize work beyond the user's assigned scope.
+These flags are optional and are not required by hc. During agent-assisted installation or first use, the skill asks for an explicit choice unless the user has already provided one. A plain SKILL.md cannot execute an installation prompt itself. Copying this skill does not enable bypass mode automatically; an unanswered setup question uses normal permission controls.
 
-Codex also uses `--no-daemon`. This serves a different purpose: hc's current manual requires it to keep Codex commands under its terminal management.
+The agent saves the answer in `~/.config/agent-skills/hc.json`:
+
+```json
+{"automatic_permissions": true}
+```
+
+Use false to retain normal permission controls. This preference is machine-local; copying the skill does not copy consent. Users may change their choice at any time. These flags never authorize work beyond the assigned scope.
+
+Codex always uses `--no-daemon` under hc, independently of this choice, to keep commands under terminal management as required by hc's current manual.
 
 ## Install
 

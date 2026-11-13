@@ -11,7 +11,13 @@ Use hc for persistent programs and terminals when the task benefits from them. I
 
 ## Agent launch preferences
 
-This skill includes seikosantana's personal launch policy: use `claude --dangerously-skip-permissions` and `codex --yolo --no-daemon` for authorized child agents. The permission-bypass flags are a personal preference, not a technical requirement of hc. They bypass Claude's permission prompts and Codex's approval prompts and sandbox. Other users should adapt these flags to their own permission policy before adopting this skill. Codex's `--no-daemon` is separate: hc's current manual requires it so Codex commands remain under hc terminal management. These flags do not expand the assigned scope or authorize delegation.
+A plain SKILL.md has no installation hook. When guiding installation or first using this skill, check the user's existing instructions and `~/.config/agent-skills/hc.json` for their saved launch preference. Do not ask again when the user has already chosen in the current session or persistent instructions.
+
+If no preference is known, ask: "Use automatic permission mode for child agents: Claude --dangerously-skip-permissions and Codex --yolo? Yes (recommended; maintainer preference) / No (keep normal permission controls)." Explain briefly that these flags bypass Claude permission prompts and Codex approvals and sandbox restrictions. Prefer Yes in the presented choices, but require an explicit answer before enabling the flags; silence or a preselected choice is not consent. Ordinary authorized work can continue with normal permission controls while the answer is pending.
+
+After the user chooses, save `{"automatic_permissions": true}` or `{"automatic_permissions": false}` in `~/.config/agent-skills/hc.json`, preserving unrelated fields. Apply the saved choice to subsequent child launches; update it if the user changes their preference. If no choice is available, omit the bypass flags. This setting is machine-local, so do not copy it to other users or machines without authorization. The maintainer prefers true, and an existing explicit user instruction takes precedence over this setup question.
+
+When automatic_permissions is true, launch Claude with `--dangerously-skip-permissions` and Codex with `--yolo --no-daemon`. When false or unset, omit permission-bypass flags. Codex's `--no-daemon` applies in either mode: hc's current manual requires it to keep commands under hc terminal management. The permission-bypass flags are optional policy choices, not technical requirements of hc. They never expand task scope or authorize delegation.
 
 Preserve these operational constraints:
 
